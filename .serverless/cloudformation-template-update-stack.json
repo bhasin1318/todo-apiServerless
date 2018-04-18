@@ -92,10 +92,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/todo-apiServerless/dev/1523858791076-2018-04-16T06:06:31.076Z/todo-apiServerless.zip"
+          "S3Key": "serverless/todo-apiServerless/dev/1524049103930-2018-04-18T10:58:23.930Z/todo-apiServerless.zip"
         },
         "FunctionName": "todo-apiServerless-dev-app",
-        "Handler": "server.handler",
+        "Handler": "index.handler",
         "MemorySize": 1024,
         "Role": {
           "Fn::GetAtt": [
@@ -104,21 +104,26 @@
           ]
         },
         "Runtime": "nodejs6.10",
-        "Timeout": 6
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "USERS_TABLE": "users-table-dev"
+          }
+        }
       },
       "DependsOn": [
         "AppLogGroup",
         "IamRoleLambdaExecution"
       ]
     },
-    "AppLambdaVersionYN96225YAQJvlU8wCGc7rsFlLo60MMXsAWc4IkEXxo": {
+    "AppLambdaVersionPoIrHmaugWNAfKBZl1hrcRFHO3bEVxK2AlF1k2xpE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "8/SPA0qxKttuKMfystz6iCwnhrUmiQsqQDdZZJ/cvEk="
+        "CodeSha256": "IicBqq9HFt0v2Xy062/kMhtl9o7gWVX4rvd87TZJupA="
       }
     },
     "ApiGatewayRestApi": {
@@ -228,7 +233,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1523858791142": {
+    "ApiGatewayDeployment1524049104156": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -273,6 +278,28 @@
           ]
         }
       }
+    },
+    "UsersDynamoDBTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "userId",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "userId",
+            "KeyType": "HASH"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 1,
+          "WriteCapacityUnits": 1
+        },
+        "TableName": "users-table-dev"
+      }
     }
   },
   "Outputs": {
@@ -284,7 +311,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionYN96225YAQJvlU8wCGc7rsFlLo60MMXsAWc4IkEXxo"
+        "Ref": "AppLambdaVersionPoIrHmaugWNAfKBZl1hrcRFHO3bEVxK2AlF1k2xpE"
       }
     },
     "ServiceEndpoint": {

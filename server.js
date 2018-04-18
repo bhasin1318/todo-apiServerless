@@ -3,6 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var _ = require('underscore');
 var db = require('./db.js');
+const AWS = require('aws-sdk');
 
 var app = express();
 var PORT = process.env.PORT || 3000;
@@ -117,5 +118,6 @@ db.sequelize.sync().then(function() {
 	// });
 	module.exports.handler = serverless(app);
 });
+	module.exports.handler = serverless(app);
 
 
